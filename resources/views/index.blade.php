@@ -74,7 +74,7 @@
         <div class="post-preview">
           <a href="post.html">
             <h2 class="post-title">
-              Man must explore, and this is exploration at its greatest
+              0316 讀書會
             </h2>
             <h3 class="post-subtitle">
               Problems look mighty small from 150 miles up
@@ -85,7 +85,7 @@
             on September 24, 2019</p>
         </div>
         <hr>
-        <div class="post-preview">
+        {{-- <div class="post-preview">
           <a href="post.html">
             <h2 class="post-title">
               I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
@@ -123,7 +123,7 @@
             <a href="#">Start Bootstrap</a>
             on July 8, 2019</p>
         </div>
-        <hr>
+        <hr> --}}
         <!-- Pager -->
         <div class="clearfix">
           <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>

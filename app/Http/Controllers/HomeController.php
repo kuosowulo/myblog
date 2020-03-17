@@ -3,26 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-   public function index() 
+    public function index()
     {
+        
         return view('index');
     }
 
-    public function viewPost()
+    public function showlogin()
     {
-        return view('post');
+        return view('login');
     }
 
-    public function viewContact()
+    public function login(Request $request)
     {
-        return view('contact');
-    }
+        $request = $request->all();
 
-    public function viewAbout()
-    {
-        return view('about');
+        $attempt = Auth::attempt(
+            [
+                'email' => $request['email'],
+                'password' => $request['password']
+            ]
+        );
+
+        if ($attempt) {
+            return redirect('/index');
+        } else {
+            dd('oops');
+        }
     }
 }

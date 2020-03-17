@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-
 Route::get('/index', 'HomeController@index');
 
 Route::get('/viewPost', 'HomeController@viewPost');
@@ -10,3 +8,6 @@ Route::get('/index', 'HomeController@index');
 
 Route::get('/viewAbout', 'HomeController@viewAbout');
 
+Route::get('/login', 'HomeController@showlogin');
+
+Route::post('/login', 'HomeController@login');
