@@ -42,7 +42,7 @@
             <a class="nav-link" href="about.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="post.html">Sample Post</a>
+            <a class="nav-link" href="{{ route('post') }}">Post</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="contact.html">Contact</a>
@@ -71,7 +71,23 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
+        @foreach($articles as $key => $article)
+          <div class="post-preview">
+            <a href="{{ route('viewPost', ['id' => $article->id]) }}">
+              <h2 class="post-title">
+                {{ $article->title }}
+              </h2>
+              <h3 class="post-subtitle">
+                {{ $article->subtitle }}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">{{ $article->users->name }}</a>
+              on Ｍarch 16, 2020</p>
+          </div>
+          <hr>
+        @endforeach
+        {{-- <div class="post-preview">
           <a href="post.html">
             <h2 class="post-title">
               0316 讀書會
@@ -84,7 +100,8 @@
             <a href="#">Start Bootstrap</a>
             on September 24, 2019</p>
         </div>
-        <hr>
+        <hr> --}}
+
         {{-- <div class="post-preview">
           <a href="post.html">
             <h2 class="post-title">

@@ -1,13 +1,15 @@
 <?php
 
-Route::get('/index', 'HomeController@index');
+Route::get('index', 'HomeController@index');
 
-Route::get('/viewPost', 'HomeController@viewPost');
+Route::get('viewPost', 'HomeController@viewPost')->name('viewPost');
 
-Route::get('/viewContact', 'HomeController@viewContact');
+Route::get('post', 'HomeController@getPostForm')->name('post');
 
-Route::get('/viewAbout', 'HomeController@viewAbout');
+Route::post('post', 'HomeController@newPost');
 
-Route::get('/login', 'HomeController@showlogin');
+Route::get('viewAbout', 'HomeController@viewAbout');
 
-Route::post('/login', 'HomeController@login');
+Route::get('login', 'HomeController@showlogin');
+
+Route::post('login', 'HomeController@login');
