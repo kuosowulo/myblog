@@ -83,7 +83,7 @@
             </a>
             <p class="post-meta">Posted by
               <a href="#">{{ $article->users->name }}</a>
-              on Ｍarch 16, 2020</p>
+              on {{ $article->date }}</p>
           </div>
           <hr>
         @endforeach

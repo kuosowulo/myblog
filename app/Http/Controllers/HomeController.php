@@ -4,41 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\articles;
-use Carbon\Carbon;
+use App\Services\blogServices;
 
 
 class HomeController extends Controller
 {
+    public function __construct(blogServices $blogService)
+    {
+        $this->blog = $blogService;
+    }
+
     public function index()
     {
-        $articles = articles::with('users')->get();
-
+        $articles = $this->blog->getAllPost();
+        
         return view('index', compact('articles'));
     }
 
     public function viewPost(Request $request)
     {
         $id = $request->all()['id'];
-        $article = articles::where('id', $id)->first();
-        
+        $article = $this->blog->getPostById($id);
+
         return view('post', compact('article'));
     }
 
     public function newPost(Request $request)
     {
         $request = $request->all();
-        $user = Auth::user();
-        
-        $newPost = new articles();
-        $newPost->author = $user->id;
-        $newPost->title = $request['title'];
-        $newPost->subtitle = $request['subtitle'];
-        $newPost->content = $request['editordata'];
-        $newPost->date = Carbon::today()->toDateString();
-        $newPost->save();
 
-        return redirect('/index');
+        $author = Auth::user()->id;
+        $title = $request['title'];
+        $subtitle = $request['subtitle'];
+        $content = $request['editordata'];
+
+        if ($this->blog->newPost($author, $title, $subtitle, $content)){
+            return redirect('/index');
+        } else {
+            dd('fail');
+        }
     }
 
     public function getPostForm()
