@@ -35,31 +35,7 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="post.html">Sample Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  @include('navigation')
 
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('myblog/img/contact-bg.jpg')">
@@ -80,27 +56,26 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form method="POST" action="/post" novalidate="">
+        <form method="POST" @if(isset($article)) action="/edit/{{ $article->id }}" @else action="/post" @endif novalidate="">
           {{ csrf_field() }}
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Title</label>
-              <input type="text" class="form-control" placeholder="Title" name="title" required data-validation-required-message="Please enter title.">
+            <input type="text" class="form-control" placeholder="Title" name="title" required data-validation-required-message="Please enter title." @if(isset($article)) value={{ $article->title }} @endif>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>SubTitle</label>
-              <input type="text" class="form-control" placeholder="SubTitle" name="subtitle" required data-validation-required-message="Please enter subtitle.">
+              <input type="text" class="form-control" placeholder="SubTitle" name="subtitle" required data-validation-required-message="Please enter subtitle." @if(isset($article)) value={{ $article->subtitle }} @endif>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Content</label>
-              <textarea id="summernote" name="editordata"></textarea>
-              {{-- <textarea rows="5" class="form-control" placeholder="Content" id="Content" required data-validation-required-message="Please enter content."></textarea> --}}
+              <textarea id="summernote" name="editordata">@if(isset($article)) {!! $article->content !!} @endif</textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
@@ -169,7 +144,54 @@
     $('#summernote').summernote({
       placeholder: 'Content',
       tabsize: 2,
-      height: 100
+      height: 100,
+      callbacks: {
+          onImageUpload: function (image) {
+
+              uploadImage(image[0]);
+          }
+      }
+
+      // function uploadImage(image) {
+      //       var data = new FormData();
+      //       data.append("image", image);
+      //       $.ajax({
+      //           url: 'uploadImage',
+      //           cache: false,
+      //           contentType: false,
+      //           processData: false,
+      //           data: data,
+      //           type: "post",
+      //           success: function (url) {
+      //               if (url.status == 1) {
+      //                   var image = $('<img>').attr('src','/backend/'+url.path);
+      //                   $('#summernote').summernote("insertNode", image[0]);
+      //               }
+      //           },
+      //           error: function (data) {
+      //               console.log(data);
+      //           }
+      //       });
+      //   }
+      // onImageUpload: 
+      // function(files, editor, welEditable) {
+        // sendFile(files[0], editor, welEditable);
+      // }
+      // function sendFile(file, editor, welEditable) {
+      //   data = new FormData();
+      //   data.append("file", file);
+      //     $.ajax({
+      //         data: data,
+      //         type: "POST",
+      //         url: "uploadImage",
+      //         cache: false,
+      //         contentType: false,
+      //         processData: false,
+      //         success: function(url) {
+      //             editor.insertImage(welEditable, url);
+      //         }
+      //     });
+      // }
     });
   </script>
 </body>

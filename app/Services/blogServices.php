@@ -24,7 +24,10 @@ class blogServices
 
     public function getPostById($id)
     {
-        return $this->blogRepo->getPostById($id);
+        $post = $this->blogRepo->getPostById($id);
+        $post->date = $this->transformDate($post->date);
+
+        return $post;
     }
 
     public function newPost($author, $title, $subtitle, $content)
@@ -34,8 +37,13 @@ class blogServices
         return $this->blogRepo->insertPost($author, $title, $subtitle, $content, $date);
     }
 
-    public function transformDate($date)
+    private function transformDate($date)
     {
         return Carbon::createFromFormat('Y-m-d', $date)->format('F d\\, Y');
+    }
+
+    public function editPost($id, $title, $subtitle, $content)
+    {
+        return $this->blogRepo->updatePost($id, $title, $subtitle, $content);
     }
 }

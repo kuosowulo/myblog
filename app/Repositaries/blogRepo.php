@@ -35,4 +35,21 @@ class blogRepo
             return false;
         }  
     }
+
+    public function updatePost($id, $title, $subtitle, $content)
+    {
+        try{
+            $post = articles::find($id);
+            $post->title = $title;
+            $post->subtitle = $subtitle;
+            $post->content = $content;
+            $post->save();
+
+            return true;
+        } catch(\Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
 }

@@ -29,6 +29,14 @@ class HomeController extends Controller
         return view('post', compact('article'));
     }
 
+    public function viewEditPost(Request $request)
+    {
+        $id = $request->all()['id'];
+        $article = $this->blog->getPostById($id);
+        
+        return view('postForm', compact('article'));
+    }
+
     public function newPost(Request $request)
     {
         $request = $request->all();
@@ -43,6 +51,27 @@ class HomeController extends Controller
         } else {
             dd('fail');
         }
+    }
+
+    public function editPost($id, Request $request)
+    {
+        $request = $request->all();
+        $title = $request['title'];
+        $subtitle = $request['subtitle'];
+        $content = $request['editordata'];
+        
+        if ($this->blog->editPost($id, $title, $subtitle, $content)){
+            return redirect('/index');
+        } else {
+            dd('fail');
+        }
+        
+    }
+
+    public function uploadImage(Request $request)
+    {
+        dump($request);
+        dd();
     }
 
     public function getPostForm()
