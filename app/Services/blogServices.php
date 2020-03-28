@@ -46,4 +46,9 @@ class blogServices
     {
         return $this->blogRepo->updatePost($id, $title, $subtitle, $content);
     }
+
+    public function deletePost($id)
+    {
+        return $this->blogRepo->deletePost($id);
+    }
 }

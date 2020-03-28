@@ -65,7 +65,17 @@ class HomeController extends Controller
         } else {
             dd('fail');
         }
-        
+    }
+
+    public function deletePost(Request $request)
+    {
+        $id = $request->all()['id'];
+
+        if ($this->blog->deletePost($id)) {
+            return redirect('/index');
+        } else {
+            dd('fail');
+        }
     }
 
     public function uploadImage(Request $request)

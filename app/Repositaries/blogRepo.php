@@ -8,7 +8,7 @@ class blogRepo
 {
     public function getAllPost()
     {
-        return articles::with('users')->get();
+        return articles::with('users')->where('status', 1)->get();
     }
 
     public function getPostById($id)
@@ -43,6 +43,21 @@ class blogRepo
             $post->title = $title;
             $post->subtitle = $subtitle;
             $post->content = $content;
+            $post->save();
+
+            return true;
+        } catch(\Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
+
+    public function deletePost($id)
+    {
+        try{
+            $post = articles::find($id);
+            $post->status = 0;
             $post->save();
 
             return true;

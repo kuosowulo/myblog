@@ -22,9 +22,11 @@
           <li class="nav-item">
             <a class="nav-link" href="post">Post</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
+          @if(isset($article))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('deletePost', ['id' => $article->id]) }}">Delete</a>
+            </li>
+          @endif
         </ul>
       </div>
     </div>
