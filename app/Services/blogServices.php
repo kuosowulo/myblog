@@ -33,8 +33,9 @@ class blogServices
     public function newPost($author, $title, $subtitle, $content)
     {
         $date = Carbon::today()->toDateString();
+        $status = 1;
 
-        return $this->blogRepo->insertPost($author, $title, $subtitle, $content, $date);
+        return $this->blogRepo->insertPost($author, $title, $subtitle, $content, $date, $status);
     }
 
     private function transformDate($date)

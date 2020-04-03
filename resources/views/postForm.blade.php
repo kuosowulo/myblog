@@ -144,7 +144,8 @@
     $('#summernote').summernote({
       placeholder: 'Content',
       tabsize: 2,
-      height: 100,
+      height: 350,
+      focus: true,
       callbacks: {
           onImageUpload: function (image) {
 

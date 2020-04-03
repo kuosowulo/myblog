@@ -21,6 +21,7 @@ class CreateArticlesTable extends Migration
             $table->string('subtitle');
             $table->date('date');
             $table->longText('content');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

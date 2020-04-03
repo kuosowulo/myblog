@@ -16,7 +16,7 @@ class blogRepo
         return articles::where('id', $id)->first();
     }
 
-    public function insertPost($author, $title, $subtitle, $content, $date)
+    public function insertPost($author, $title, $subtitle, $content, $date, $status)
     {   
         try{
             $newPost = new articles();
@@ -25,6 +25,7 @@ class blogRepo
             $newPost->subtitle = $subtitle;
             $newPost->content = $content;
             $newPost->date = $date;
+            $newPost->status = $status;
             $newPost->save();
 
             return true;
