@@ -103,29 +103,6 @@ class HomeController extends Controller
         return view('postForm');
     }
 
-    public function showlogin()
-    {
-        return view('login');
-    }
-
-    public function login(Request $request)
-    {
-        $request = $request->all();
-
-        $attempt = Auth::attempt(
-            [
-                'email' => $request['email'],
-                'password' => $request['password']
-            ]
-        );
-
-        if ($attempt) {
-            return redirect('/index');
-        } else {
-            dd('oops');
-        }
-    }
-
     public function showImage($id)
     {
         $file = $this->blog->getImageById($id);

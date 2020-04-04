@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+
 
 use Closure;
 
 class UserMiddleware
 {
-
-    protected $auth;
 
     public function __construct(Auth $auth)
     {
@@ -24,8 +24,10 @@ class UserMiddleware
      */
     public function handle($request, Closure $next)
     {
-        dump(Auth::user());
-        dd();
-        return $next($request);
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        } else {
+            return $next($request);
+        }
     }
 }
