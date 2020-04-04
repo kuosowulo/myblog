@@ -21,3 +21,7 @@ Route::get('viewEditPost', 'HomeController@viewEditPost')->name('viewEditPost');
 Route::post('uploadImage', 'HomeController@uploadImage')->name('uploadImage');
 
 Route::get('deletePost', 'HomeController@deletePost')->name('deletePost');
+
+Route::post('uploadFile', 'HomeController@uploadFile');
+
+Route::get('showImage/{id}', 'HomeController@showImage');

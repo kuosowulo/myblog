@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Clean Blog - Start Bootstrap Theme</title>
 
@@ -35,7 +36,31 @@
 <body>
 
   <!-- Navigation -->
-  @include('navigation')
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="post.html">Sample Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('myblog/img/contact-bg.jpg')">
@@ -145,55 +170,37 @@
       placeholder: 'Content',
       tabsize: 2,
       height: 350,
-      focus: true,
       callbacks: {
-          onImageUpload: function (image) {
-
-              uploadImage(image[0]);
-          }
+        onImageUpload: function (files) {
+            img = sendFile(files[0], $(this));
+        }
       }
-
-      // function uploadImage(image) {
-      //       var data = new FormData();
-      //       data.append("image", image);
-      //       $.ajax({
-      //           url: 'uploadImage',
-      //           cache: false,
-      //           contentType: false,
-      //           processData: false,
-      //           data: data,
-      //           type: "post",
-      //           success: function (url) {
-      //               if (url.status == 1) {
-      //                   var image = $('<img>').attr('src','/backend/'+url.path);
-      //                   $('#summernote').summernote("insertNode", image[0]);
-      //               }
-      //           },
-      //           error: function (data) {
-      //               console.log(data);
-      //           }
-      //       });
-      //   }
-      // onImageUpload: 
-      // function(files, editor, welEditable) {
-        // sendFile(files[0], editor, welEditable);
-      // }
-      // function sendFile(file, editor, welEditable) {
-      //   data = new FormData();
-      //   data.append("file", file);
-      //     $.ajax({
-      //         data: data,
-      //         type: "POST",
-      //         url: "uploadImage",
-      //         cache: false,
-      //         contentType: false,
-      //         processData: false,
-      //         success: function(url) {
-      //             editor.insertImage(welEditable, url);
-      //         }
-      //     });
-      // }
     });
+    
+    function sendFile(file, editor) {
+      + new Date();
+      var form_data = new FormData();
+      form_data.append('file', file);
+      var filename = Date.now();
+      
+      $.ajax({
+        data: form_data,
+        type: "POST",
+        url: 'http://' + window.location.host + '/uploadFile',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(url) {
+          $('#summernote').summernote('editor.insertImage', url);
+        },
+        error: function(url) {
+          console.log(url);
+        }
+      });
+    }
   </script>
 </body>
 

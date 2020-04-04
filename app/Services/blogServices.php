@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Repositaries\blogRepo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class blogServices
 {
@@ -51,5 +52,49 @@ class blogServices
     public function deletePost($id)
     {
         return $this->blogRepo->deletePost($id);
+    }
+
+    public function uploadFile($file, $user_id) 
+    {
+        $fileName = Carbon::now()->timestamp;
+        $path = 'public/image/'.$fileName.'.'.$file->getClientOriginalExtension();
+
+        try {
+            Storage::disk('local')->put($path, file_get_contents($file->getRealPath()));
+        } catch(\Exception $e) {
+            return false;
+        }
+
+        if(Storage::disk('local')->exists($path)) {
+            $image_id = $this->blogRepo->insertImage($user_id, $path);
+            if($image_id) {
+                return $image_id;
+            }
+        }
+
+        return false; 
+    }
+
+    public function getImageById($id)
+    {
+        $path = $this->blogRepo->getImagePathById($id);
+        
+        if($path) {
+            try {
+                $image = Storage::disk('local')->get($path);
+                $type = Storage::disk('local')->mimeType($path);
+                
+                return [
+                    'Content' => $image,
+                    'Type' => $type
+                ];
+            } catch(\Exception $e) {
+                report($e);
+
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

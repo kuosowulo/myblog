@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use App\Services\blogServices;
 
 
@@ -17,7 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $articles = $this->blog->getAllPost();
-        
+
         return view('index', compact('articles'));
     }
 
@@ -78,10 +79,23 @@ class HomeController extends Controller
         }
     }
 
-    public function uploadImage(Request $request)
+    public function uploadFile(Request $request)
     {
-        dump($request);
-        dd();
+        $user_id = Auth::user()->id;
+        
+        if($request->hasFile('file') && $user_id) {
+            $file = $request['file'];
+            $image_id = $this->blog->uploadFile($file, $user_id);
+            if($image_id) {
+                $url = url('showImage/'.$image_id);
+
+                return $url;
+            } else {
+                return false;
+            };
+        } else {
+            return false;
+        }
     }
 
     public function getPostForm()
@@ -110,5 +124,15 @@ class HomeController extends Controller
         } else {
             dd('oops');
         }
+    }
+
+    public function showImage($id)
+    {
+        $file = $this->blog->getImageById($id);
+        
+        $response = Response::make($file['Content'], 200);
+        $response->header("Content-Type", $file['Type']);
+
+        return $response;
     }
 }

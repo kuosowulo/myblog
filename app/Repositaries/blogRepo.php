@@ -2,6 +2,7 @@
 
 namespace App\Repositaries;
 use App\Models\articles;
+use App\Models\image;
 use App\Exceptions\Handler as Exception;
 
 class blogRepo
@@ -56,13 +57,40 @@ class blogRepo
 
     public function deletePost($id)
     {
-        try{
+        try {
             $post = articles::find($id);
             $post->status = 0;
             $post->save();
 
             return true;
         } catch(\Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
+
+    public function insertImage($user_id, $path)
+    {
+        try {
+            $image_model = new Image();
+            $image_model->user_id = $user_id;
+            $image_model->path = $path;
+            $image_model->save();
+
+            return $image_model->id;
+        } catch (\Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
+
+    public function getImagePathById($id)
+    {
+        try {
+            return Image::find($id)->path;
+        } catch (\Exception $e) {
             report($e);
 
             return false;
