@@ -15,20 +15,24 @@
             <a class="nav-link" href="index">Home</a>
           </li>
           @if(isset($article))
-            @if(Auth::user()->id == $article->author || Auth::user()->IsAdmin == 1)
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('viewEditPost', ['id' => $article->id]) }}">Edit</a>
-            </li>
+            @if(Auth::check())
+              @if(Auth::user()->id == $article->author || Auth::user()->IsAdmin == 1)
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('viewEditPost', ['id' => $article->id]) }}">Edit</a>
+              </li>
+              @endif
             @endif
           @endif
           <li class="nav-item">
             <a class="nav-link" href="post">Post</a>
           </li>
           @if(isset($article))
-            @if(Auth::user()->id == $article->author || Auth::user()->IsAdmin == 1)
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('deletePost', ['id' => $article->id]) }}">Delete</a>
-            </li>
+            @if(Auth::check())
+              @if(Auth::user()->id == $article->author || Auth::user()->IsAdmin == 1)
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('deletePost', ['id' => $article->id]) }}">Delete</a>
+              </li>
+              @endif
             @endif
           @endif
         </ul>

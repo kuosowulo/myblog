@@ -15,21 +15,6 @@ class HomeController extends Controller
         $this->blog = $blogService;
     }
 
-    public function index()
-    {
-        $articles = $this->blog->getAllPost();
-
-        return view('index', compact('articles'));
-    }
-
-    public function viewPost(Request $request)
-    {
-        $id = $request->all()['id'];
-        $article = $this->blog->getPostById($id);
-
-        return view('post', compact('article'));
-    }
-
     public function viewEditPost(Request $request)
     {
         $id = $request->all()['id'];
