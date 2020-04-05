@@ -15,18 +15,27 @@ class AuthController extends Controller
 
     public function showlogin()
     {
-        return view('loginPage');
+        if(Auth::check() && Auth::viaRemember()) {
+            return redirect('/index');
+        } else {
+            return view('loginPage');
+        }
     }
 
     public function login(Request $request)
     {
         $request = $request->all();
+        $IsRemember = false;
+
+        if(isset($request['remember-me'])) {
+            $IsRemember = true;
+        }
 
         $attempt = Auth::attempt(
             [
                 'email' => $request['email'],
                 'password' => $request['password']
-            ], true
+            ], $IsRemember
         );
 
         if ($attempt) {
@@ -39,7 +48,7 @@ class AuthController extends Controller
     public function index()
     {
         $articles = $this->blog->getAllPost();
-
+        
         return view('index', compact('articles'));
     }
 

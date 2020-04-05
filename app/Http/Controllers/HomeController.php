@@ -97,4 +97,11 @@ class HomeController extends Controller
 
         return $response;
     }
+
+    public function logOut()
+    {
+        Auth::logout();
+
+        return redirect('/index');
+    }
 }

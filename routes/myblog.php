@@ -15,3 +15,5 @@ Route::get('deletePost', 'HomeController@deletePost')->name('deletePost');
 Route::post('uploadFile', 'HomeController@uploadFile');
 
 Route::get('showImage/{id}', 'HomeController@showImage');
+
+Route::get('logOut', 'HomeController@logOut')->name('logOut');
