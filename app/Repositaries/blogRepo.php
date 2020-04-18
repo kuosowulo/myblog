@@ -96,4 +96,12 @@ class blogRepo
             return false;
         }
     }
+
+    public function getRelatedPost($subtitle)
+    {
+        return articles::select('id', 'title')->where([
+                ['subtitle', $subtitle],
+                ['status', 1]
+            ])->get();
+    }
 }

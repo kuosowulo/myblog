@@ -14,13 +14,15 @@ class AuthController extends Controller
     }
 
     public function showlogin()
-    {
+    { 
         if(Auth::check() && Auth::viaRemember()) {
             return redirect('/index');
         } else {
             return view('loginPage');
         }
     }
+
+    
 
     public function login(Request $request)
     {
@@ -55,8 +57,10 @@ class AuthController extends Controller
     public function viewPost(Request $request)
     {
         $id = $request->all()['id'];
-        $article = $this->blog->getPostById($id);
+        $articleObject = $this->blog->getPostById($id);
+        $article = $articleObject[0];
+        $relatedPost = $articleObject[1];
 
-        return view('post', compact('article'));
+        return view('post', compact('article', 'relatedPost'));
     }
 }

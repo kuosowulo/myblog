@@ -27,8 +27,9 @@ class blogServices
     {
         $post = $this->blogRepo->getPostById($id);
         $post->date = $this->transformDate($post->date);
+        $relatedPost = $this->getRelatedPost($post->subtitle);
 
-        return $post;
+        return [$post, $relatedPost];
     }
 
     public function newPost($author, $title, $subtitle, $content)
@@ -96,5 +97,19 @@ class blogServices
         } else {
             return false;
         }
+    }
+
+    public function getRelatedPost($subtitle)
+    {
+        $relatedPost = $this->blogRepo->getRelatedPost($subtitle)->each(function($item) {
+            return $item->url = $this->transformUrl($item->id);
+        });
+
+        return $relatedPost;
+    }
+
+    public function transformUrl($id)
+    {
+        return url('viewPost?id=' . $id);
     }
 }
